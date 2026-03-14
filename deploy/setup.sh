@@ -31,7 +31,7 @@ if [ -d "$APP_DIR" ]; then
   git pull
 else
   echo "==> Cloning app..."
-  sudo git clone YOUR_REPO_URL "$APP_DIR"
+  sudo git clone https://github.com/dusty-g/venn-app.git "$APP_DIR"
   sudo chown -R "$USER:$USER" "$APP_DIR"
   cd "$APP_DIR"
 fi
