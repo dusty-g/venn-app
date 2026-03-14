@@ -11,7 +11,7 @@ db.pragma('foreign_keys = ON')
 db.exec(`
   CREATE TABLE IF NOT EXISTS people (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL UNIQUE COLLATE NOCASE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 
@@ -32,9 +32,14 @@ export function getPeople() {
   return db.prepare('SELECT id, name FROM people ORDER BY name').all()
 }
 
+function normalizeName(name: string): string {
+  return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+}
+
 export function addPerson(name: string) {
-  const result = db.prepare('INSERT INTO people (name) VALUES (?)').run(name)
-  return { id: result.lastInsertRowid, name }
+  const normalized = normalizeName(name)
+  const result = db.prepare('INSERT INTO people (name) VALUES (?)').run(normalized)
+  return { id: result.lastInsertRowid, name: normalized }
 }
 
 export function getFacts() {
