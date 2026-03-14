@@ -97,7 +97,11 @@ export default function App() {
       {tab === 'log' && (
         <>
           <AddFact people={people} onAdded={refresh} />
-          <FactList facts={facts} />
+          <FactList
+            facts={facts}
+            onDelete={async (id) => { await api.deleteFact(id); refresh() }}
+            onRemovePerson={async (factId, personId) => { await api.removePersonFromFact(factId, personId); refresh() }}
+          />
         </>
       )}
       {tab === 'overlaps' && <Overlaps overlaps={overlaps} />}

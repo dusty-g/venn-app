@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { getPeople, addPerson, getFacts, addFact } from './db.js'
+import { getPeople, addPerson, getFacts, addFact, deleteFact, removePersonFromFact } from './db.js'
 import { computeOverlaps, computePredictions } from './analysis.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -43,6 +43,16 @@ app.post('/api/facts', (req, res) => {
   if (!trait?.trim()) return res.status(400).json({ error: 'Trait required' })
   if (!personIds?.length) return res.status(400).json({ error: 'At least one person required' })
   res.json(addFact(trait.trim(), personIds))
+})
+
+app.delete('/api/facts/:id', (req, res) => {
+  deleteFact(Number(req.params.id))
+  res.json({ ok: true })
+})
+
+app.delete('/api/facts/:factId/people/:personId', (req, res) => {
+  removePersonFromFact(Number(req.params.factId), Number(req.params.personId))
+  res.json({ ok: true })
 })
 
 app.get('/api/overlaps', (_req, res) => {

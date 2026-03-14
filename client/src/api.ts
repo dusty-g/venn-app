@@ -36,6 +36,9 @@ export const api = {
   getFacts: () => json<Fact[]>('/facts'),
   addFact: (trait: string, personIds: number[]) =>
     json<Fact>('/facts', { method: 'POST', body: JSON.stringify({ trait, personIds }) }),
+  deleteFact: (id: number) => json<{ ok: boolean }>(`/facts/${id}`, { method: 'DELETE' }),
+  removePersonFromFact: (factId: number, personId: number) =>
+    json<{ ok: boolean }>(`/facts/${factId}/people/${personId}`, { method: 'DELETE' }),
   getOverlaps: () => json<Overlap[]>('/overlaps'),
   getPredictions: () => json<Prediction[]>('/predictions'),
 }

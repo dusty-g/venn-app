@@ -54,23 +54,36 @@ export function getFacts() {
 
 export function addFact(trait: string, personIds: number[]) {
   const insertFact = db.prepare('INSERT INTO facts (trait) VALUES (?)')
-  const insertLink = db.prepare('INSERT INTO fact_people (fact_id, person_id) VALUES (?, ?)')
+  const insertLink = db.prepare('INSERT OR IGNORE INTO fact_people (fact_id, person_id) VALUES (?, ?)')
+  const findExisting = db.prepare('SELECT id FROM facts WHERE LOWER(trait) = LOWER(?)')
 
-  const result = db.transaction(() => {
-    const { lastInsertRowid } = insertFact.run(trait)
+  const factId = db.transaction(() => {
+    const existing = findExisting.get(trait) as { id: number } | undefined
+    const id = existing ? existing.id : (insertFact.run(trait).lastInsertRowid as number)
     for (const pid of personIds) {
-      insertLink.run(lastInsertRowid, pid)
+      insertLink.run(id, pid)
     }
-    return lastInsertRowid
+    return id
   })()
 
-  const factId = result as number
   const stmtPeople = db.prepare(`
     SELECT p.id, p.name FROM people p
     JOIN fact_people fp ON fp.person_id = p.id
     WHERE fp.fact_id = ?
   `)
   return { id: factId, trait, people: stmtPeople.all(factId) }
+}
+
+export function deleteFact(id: number) {
+  db.prepare('DELETE FROM facts WHERE id = ?').run(id)
+}
+
+export function removePersonFromFact(factId: number, personId: number) {
+  db.prepare('DELETE FROM fact_people WHERE fact_id = ? AND person_id = ?').run(factId, personId)
+  const remaining = db.prepare('SELECT COUNT(*) as cnt FROM fact_people WHERE fact_id = ?').get(factId) as { cnt: number }
+  if (remaining.cnt === 0) {
+    db.prepare('DELETE FROM facts WHERE id = ?').run(factId)
+  }
 }
 
 export function getFactPeopleMatrix() {

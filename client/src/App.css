@@ -140,6 +140,41 @@ button.chip.selected {
   font-size: 0.75rem;
 }
 
+.chip.removable {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip-remove {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0 2px;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.chip-remove:hover {
+  color: #ef4444;
+}
+
+.fact-delete {
+  background: none;
+  border: none;
+  color: #444;
+  cursor: pointer;
+  padding: 4px 6px;
+  font-size: 1rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.fact-delete:hover {
+  color: #ef4444;
+}
+
 .tabs {
   display: flex;
   gap: 4px;
