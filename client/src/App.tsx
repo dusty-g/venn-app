@@ -6,9 +6,12 @@ import AddFact from './components/AddFact'
 import FactList from './components/FactList'
 import Overlaps from './components/Overlaps'
 import Predictions from './components/Predictions'
+import SimilarityMap from './components/SimilarityMap'
 import './App.css'
 
 type Tab = 'log' | 'overlaps' | 'predictions'
+
+const isPCARoute = window.location.pathname === '/pca'
 
 export default function App() {
   const [authed, setAuthed] = useState(!!localStorage.getItem('venn-passphrase'))
@@ -71,6 +74,18 @@ export default function App() {
           </div>
           {error && <p className="error">{error}</p>}
         </div>
+      </div>
+    )
+  }
+
+  if (isPCARoute) {
+    return (
+      <div className="app">
+        <header>
+          <h1>Venn</h1>
+          <p className="tagline">similarity map</p>
+        </header>
+        <SimilarityMap />
       </div>
     )
   }

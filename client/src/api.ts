@@ -1,4 +1,4 @@
-import type { Person, Fact, Overlap, Prediction } from './types'
+import type { Person, Fact, Overlap, Prediction, PCAPoint } from './types'
 
 const BASE = '/api'
 
@@ -41,4 +41,5 @@ export const api = {
     json<{ ok: boolean }>(`/facts/${factId}/people/${personId}`, { method: 'DELETE' }),
   getOverlaps: () => json<Overlap[]>('/overlaps'),
   getPredictions: () => json<Prediction[]>('/predictions'),
+  getPCA: () => json<PCAPoint[]>('/pca'),
 }

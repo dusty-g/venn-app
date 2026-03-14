@@ -3,7 +3,7 @@ import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { getPeople, addPerson, getFacts, addFact, deleteFact, removePersonFromFact } from './db.js'
-import { computeOverlaps, computePredictions } from './analysis.js'
+import { computeOverlaps, computePredictions, computePCA } from './analysis.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -61,6 +61,10 @@ app.get('/api/overlaps', (_req, res) => {
 
 app.get('/api/predictions', (_req, res) => {
   res.json(computePredictions())
+})
+
+app.get('/api/pca', (_req, res) => {
+  res.json(computePCA())
 })
 
 // In production, serve the built React app

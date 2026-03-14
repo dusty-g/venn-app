@@ -23,3 +23,9 @@ export interface Prediction {
   confidence: number
   basedOn: { person: Person; sharedCount: number }
 }
+
+export interface PCAPoint {
+  name: string
+  x: number
+  y: number
+}
