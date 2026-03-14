@@ -7,11 +7,14 @@ import FactList from './components/FactList'
 import Overlaps from './components/Overlaps'
 import Predictions from './components/Predictions'
 import SimilarityMap from './components/SimilarityMap'
+import AdminPage from './components/AdminPage'
 import './App.css'
 
 type Tab = 'log' | 'overlaps' | 'predictions'
 
-const isPCARoute = window.location.pathname === '/pca'
+const pathname = window.location.pathname
+const isPCARoute = pathname === '/pca'
+const isAdminRoute = pathname === '/admin'
 
 export default function App() {
   const [authed, setAuthed] = useState(!!localStorage.getItem('venn-passphrase'))
@@ -90,6 +93,18 @@ export default function App() {
     )
   }
 
+  if (isAdminRoute) {
+    return (
+      <div className="app">
+        <header>
+          <h1>Venn</h1>
+          <p className="tagline">admin</p>
+        </header>
+        <AdminPage />
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <header>
@@ -114,8 +129,8 @@ export default function App() {
           <AddFact people={people} onAdded={refresh} />
           <FactList
             facts={facts}
-            onDelete={async (id) => { await api.deleteFact(id); refresh() }}
-            onRemovePerson={async (factId, personId) => { await api.removePersonFromFact(factId, personId); refresh() }}
+            allPeople={people}
+            onAddPerson={async (trait, personId) => { await api.addFact(trait, [personId]); refresh() }}
           />
         </>
       )}

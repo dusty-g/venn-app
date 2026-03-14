@@ -39,6 +39,11 @@ export const api = {
   deleteFact: (id: number) => json<{ ok: boolean }>(`/facts/${id}`, { method: 'DELETE' }),
   removePersonFromFact: (factId: number, personId: number) =>
     json<{ ok: boolean }>(`/facts/${factId}/people/${personId}`, { method: 'DELETE' }),
+  renamePerson: (id: number, name: string) =>
+    json<{ ok: boolean }>(`/people/${id}`, { method: 'PUT', body: JSON.stringify({ name }) }),
+  deletePerson: (id: number) => json<{ ok: boolean }>(`/people/${id}`, { method: 'DELETE' }),
+  renameFact: (id: number, trait: string) =>
+    json<{ ok: boolean }>(`/facts/${id}`, { method: 'PUT', body: JSON.stringify({ trait }) }),
   getOverlaps: () => json<Overlap[]>('/overlaps'),
   getPredictions: () => json<Prediction[]>('/predictions'),
   getPCA: () => json<PCAPoint[]>('/pca'),

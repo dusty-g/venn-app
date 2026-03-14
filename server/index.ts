@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { getPeople, addPerson, getFacts, addFact, deleteFact, removePersonFromFact } from './db.js'
+import { getPeople, addPerson, getFacts, addFact, deleteFact, removePersonFromFact, renamePerson, deletePerson, renameFact } from './db.js'
 import { computeOverlaps, computePredictions, computePCA } from './analysis.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -52,6 +52,29 @@ app.delete('/api/facts/:id', (req, res) => {
 
 app.delete('/api/facts/:factId/people/:personId', (req, res) => {
   removePersonFromFact(Number(req.params.factId), Number(req.params.personId))
+  res.json({ ok: true })
+})
+
+app.put('/api/people/:id', (req, res) => {
+  const { name } = req.body
+  if (!name?.trim()) return res.status(400).json({ error: 'Name required' })
+  try {
+    renamePerson(Number(req.params.id), name.trim())
+    res.json({ ok: true })
+  } catch {
+    res.status(409).json({ error: 'Name already taken' })
+  }
+})
+
+app.delete('/api/people/:id', (req, res) => {
+  deletePerson(Number(req.params.id))
+  res.json({ ok: true })
+})
+
+app.put('/api/facts/:id', (req, res) => {
+  const { trait } = req.body
+  if (!trait?.trim()) return res.status(400).json({ error: 'Trait required' })
+  renameFact(Number(req.params.id), trait.trim())
   res.json({ ok: true })
 })
 

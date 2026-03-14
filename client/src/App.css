@@ -175,6 +175,48 @@ button.chip.selected {
   color: #ef4444;
 }
 
+.fact-add {
+  background: none;
+  border: 1px solid #333;
+  color: #666;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  line-height: 1;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
+.fact-add:hover {
+  color: #6366f1;
+  border-color: #6366f1;
+}
+
+.fact-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fact-add-people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 0 0 0;
+}
+
+.fact-add-people .chip {
+  cursor: pointer;
+  border: 1px dashed #6366f1;
+  color: #6366f1;
+}
+
+.fact-add-people .chip:hover {
+  background: #6366f1;
+  color: white;
+  border-style: solid;
+}
+
 .tabs {
   display: flex;
   gap: 4px;
@@ -213,9 +255,6 @@ button.chip.selected {
 }
 
 .fact-list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 8px 0;
   border-bottom: 1px solid #222;
 }
@@ -310,4 +349,98 @@ button.chip.selected {
 .pca-plot {
   display: block;
   margin: 0 auto;
+}
+
+.admin-list {
+  list-style: none;
+}
+
+.admin-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #222;
+}
+
+.admin-item:last-child {
+  border-bottom: none;
+}
+
+.admin-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-name {
+  flex: 1;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.admin-btn {
+  background: none;
+  border: 1px solid #333;
+  color: #888;
+  cursor: pointer;
+  padding: 3px 10px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+}
+
+.admin-btn:hover {
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+.admin-btn.danger:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.admin-edit-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.admin-input {
+  flex: 1;
+  background: #222;
+  border: 1px solid #6366f1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.admin-save {
+  background: #6366f1;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.admin-cancel {
+  background: none;
+  border: 1px solid #333;
+  color: #888;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.admin-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
 }

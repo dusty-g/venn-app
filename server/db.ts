@@ -86,6 +86,19 @@ export function removePersonFromFact(factId: number, personId: number) {
   }
 }
 
+export function renamePerson(id: number, name: string) {
+  const normalized = normalizeName(name)
+  db.prepare('UPDATE people SET name = ? WHERE id = ?').run(normalized, id)
+}
+
+export function deletePerson(id: number) {
+  db.prepare('DELETE FROM people WHERE id = ?').run(id)
+}
+
+export function renameFact(id: number, trait: string) {
+  db.prepare('UPDATE facts SET trait = ? WHERE id = ?').run(trait, id)
+}
+
 export function getFactPeopleMatrix() {
   const people = getPeople() as { id: number; name: string }[]
   const facts = db.prepare('SELECT id, trait FROM facts').all() as { id: number; trait: string }[]
